@@ -92,7 +92,7 @@ module.exports = {
     },
     open: true, // 是否自动打开浏览器
     host: 'localhost',
-    port: '8080', // 代理端口
+    port: '8085', // 代理端口
     https: false,
     hotOnly: true, // 热更新
     proxy: {
@@ -103,6 +103,20 @@ module.exports = {
         // ws: true, // 是否启用websockets
         pathRewrite: {
           '^/api': '/'
+        }
+      },
+      '/auth': {
+        target: 'http://10.254.9.31:8888',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/auth': '/'
+        }
+      },
+      '/isse-auth': {
+        target: 'https://10.254.9.31:8888',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/isse-auth': '/'
         }
       }
     }

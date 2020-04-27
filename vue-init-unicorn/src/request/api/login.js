@@ -54,6 +54,21 @@ const login = {
         Authorization: `Bearer ${accessToken}`
       }
     })
+  },
+  logout (token) {
+    return new Promise(resolve => {
+      axios({
+            url: `${process.env.AUTH_HOST}/authserver/logout`,
+            method: 'get'
+          }).then(() => {
+            axios({
+              url: `/remove_token?access_token=${token}${process.env.AUTH_USER_ME_URI} + '/authserver`,
+              method: 'get'
+            }).then(() => {
+              resolve()
+            })
+          })
+    })
   }
 }
 

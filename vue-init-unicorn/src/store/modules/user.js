@@ -1,6 +1,5 @@
-// import Vue from 'vue'
-// import { logout } from '@/api/login'
-// import { ACCESS_TOKEN } from '@/store/mutation-types'
+import Vue from 'vue'
+import { ACCESS_TOKEN } from '@/store/mutation-types'
 
 const user = {
   state: {
@@ -24,7 +23,7 @@ const user = {
 
   actions: {
     // 获取用户信息
-    GetInfo({ commit }) {
+    GetUserInfo({ commit }) {
       return new Promise((resolve, reject) => {
         this.api.login
           .getUser()
@@ -44,18 +43,18 @@ const user = {
     },
 
     // 登出
-    // Logout ({ commit, state }) {
-    //   return new Promise((resolve) => {
-    //     logout(state.token).then(() => {
-    //       resolve()
-    //     }).catch(() => {
-    //       resolve()
-    //     }).finally(() => {
-    //       commit('SET_TOKEN', '')
-    //       Vue.ls.remove(ACCESS_TOKEN)
-    //     })
-    //   })
-    // }
+    Logout ({ commit, state }) {
+      return new Promise((resolve) => {
+        this.api.login.logout(state.token).then(() => {
+          resolve()
+        }).catch(() => {
+          resolve()
+        }).finally(() => {
+          commit('SET_TOKEN', '')
+          Vue.ls.remove(ACCESS_TOKEN)
+        })
+      })
+    }
   },
 }
 

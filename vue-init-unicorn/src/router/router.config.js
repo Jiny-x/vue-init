@@ -43,7 +43,20 @@ export const constantRouterMap = [
     component: UserLayout,
     redirect: '/user/login',
     hidden: true,
+    children: [
+      {
+        path: 'login',
+        name: 'login',
+        component: () => import('@/views/user/Login')
+      },
+    ]
   },
+  // {
+  //   path: '/token-index',
+  //   name: 'tokenIndex',
+  //   hidden: true,
+  //   component: () => import('@/views/user/TokenIndex')
+  // },
 
   // {
   //   path: '/404',

@@ -7,22 +7,23 @@ import { ACCESS_TOKEN } from '@/store/mutation-types'
 
 NProgress.configure({ showSpinner: false })
 
-const whiteList = ['/token-index']
+const whiteList = ['login']
 // const defaultRoutePath = '/home'
 
 router.beforeEach((to, from, next) => {
   NProgress.start()
+  console.log(to)
   if (Vue.ls.get(ACCESS_TOKEN)) {
     if (!store.getters.userInfo) {
       store
-        .dispatch('GetInfo')
+        .dispatch('GetUserInfo')
         .then((res) => {
           const result = res.data
           store.dispatch('GenerateRoutes', { result }).then(() => {
             router.addRoutes(store.getters.addRouters)
             const redirect = decodeURIComponent(from.query.redirect || to.path)
             if (to.path === redirect) {
-              // hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record
+              // 确保addRoutes已完成
               next({ ...to, replace: true })
             } else {
               // 跳转到目的路由
@@ -39,10 +40,10 @@ router.beforeEach((to, from, next) => {
       next()
     }
   } else {
-    if (whiteList.includes(to.path)) {
+    if (whiteList.includes(to.name)) {
       next()
     } else {
-      next({ path: '/token-index' })
+      next({ path: '/user/login' })
       NProgress.done()
     }
   }

@@ -51,7 +51,7 @@ const permission = {
         const authorities = data.authorities
         const permissions = []
         authorities.map(item => {
-          permission.push(item.authority)
+          permissions.push(item.authority)
         })
         const accessedRouters = filterAsyncRouter(asyncRouterMap, permissions)
         commit('SET_ROUTERS', accessedRouters)
