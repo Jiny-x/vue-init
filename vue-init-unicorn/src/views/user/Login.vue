@@ -6,6 +6,8 @@
 <script>
 import { ACCESS_TOKEN } from '@/store/mutation-types'
 
+
+
 export default {
   name: 'Login',
   data () {
@@ -15,7 +17,6 @@ export default {
     }
   },
   mounted () {
-    console.log(process.env.VUE_APP_AUTH_URI, process.env.VUE_APP_API)
     this.code = this.$route.query.code
     this.state = this.$route.query.state
     this.getToken()
@@ -28,7 +29,7 @@ export default {
         this.$ls.set(ACCESS_TOKEN, access_token, expire)
         this.$store.commit('SET_TOKEN', access_token)
 
-        this.$route.push('/')
+        this.$router.push('/')
       })
     }
   }

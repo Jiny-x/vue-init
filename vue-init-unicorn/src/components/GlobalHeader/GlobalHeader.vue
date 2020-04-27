@@ -1,7 +1,7 @@
 <template>
   <div class="global-header">
     <div class="header-left">
-      <menu :menus="menus"></menu>
+      <menuView :menus="menus"></menuView>
       <div class="logo"></div>
     </div>
     <div class="header-right"></div>
@@ -9,8 +9,10 @@
 </template>
 
 <script>
+import MenuView from './MenuView'
 export default {
   name: 'GolbalHeader',
+  components: { MenuView },
   props: {
     menus: {
       type: Array,

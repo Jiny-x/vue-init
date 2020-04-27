@@ -6,6 +6,8 @@ import store from './store'
 import Antd from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
 
+import '@/assets/iconfont/iconfont.css'
+
 import api from './request/api'
 
 import './permission'
@@ -14,7 +16,7 @@ import VueStorage from 'vue-ls'
 const storageOptions = {
   namespace: 'u__',
   name: 'ls',
-  storage: 'session'
+  storage: 'session',
 }
 
 Vue.config.productionTip = false

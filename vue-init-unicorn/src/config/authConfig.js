@@ -12,7 +12,7 @@ var authConfig = {
   refreshTokenUri: `http://${process.env.VUE_APP_AUTH_URI}/oauth/token`,
   // 项目地址
   localuri: process.env.DEV_URL,
-  redirect_uri: `http://${process.env.VUE_APP_DEV_URL}/login`,
+  redirect_uri: `http://${process.env.VUE_APP_DEV_URL}/token-index`,
 
   // 客户端相关标识，请从认证服务器申请
   clientId: process.env.VUE_APP_AUTH_CLIENT_ID,

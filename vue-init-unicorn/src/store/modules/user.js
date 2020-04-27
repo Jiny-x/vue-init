@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import { ACCESS_TOKEN } from '@/store/mutation-types'
+import login from '@/request/api/login'
+import authConfig from '@/config/authConfig'
+const qs = require('querystring')
 
 const user = {
   state: {
@@ -20,12 +23,26 @@ const user = {
       state.info = info
     },
   },
-
   actions: {
+    // eslint-disable-next-line
+    Login() {
+      let authorUrl = authConfig.userAuthorizationUri
+      authorUrl =
+        authorUrl +
+        ('?' +
+          qs.stringify({
+            client_id: authConfig.clientId,
+            response_type: authConfig.response_type,
+            scope: authConfig.scope,
+            state: authConfig.state,
+            redirect_uri: authConfig.redirect_uri,
+          }))
+      window.location.href = authorUrl
+    },
     // 获取用户信息
     GetUserInfo({ commit }) {
       return new Promise((resolve, reject) => {
-        this.api.login
+        login
           .getUser()
           .then((res) => {
             const result = res.data
@@ -43,18 +60,22 @@ const user = {
     },
 
     // 登出
-    Logout ({ commit, state }) {
+    Logout({ commit, state }) {
       return new Promise((resolve) => {
-        this.api.login.logout(state.token).then(() => {
-          resolve()
-        }).catch(() => {
-          resolve()
-        }).finally(() => {
-          commit('SET_TOKEN', '')
-          Vue.ls.remove(ACCESS_TOKEN)
-        })
+        login
+          .logout(state.token)
+          .then(() => {
+            resolve()
+          })
+          .catch(() => {
+            resolve()
+          })
+          .finally(() => {
+            commit('SET_TOKEN', '')
+            Vue.ls.remove(ACCESS_TOKEN)
+          })
       })
-    }
+    },
   },
 }
 

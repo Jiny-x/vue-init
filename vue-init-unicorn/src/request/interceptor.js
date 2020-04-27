@@ -75,7 +75,7 @@ instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlenco
 instance.interceptors.request.use(
   (config) => {
     const token = Vue.ls.get(ACCESS_TOKEN)
-    token && (config.headers.Authorization = token)
+    token && (config.headers.Authorization = `Bearer ${token}`)
     return config
   },
   (error) => Promise.error(error)

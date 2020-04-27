@@ -7,19 +7,18 @@ import { ACCESS_TOKEN } from '@/store/mutation-types'
 
 NProgress.configure({ showSpinner: false })
 
-const whiteList = ['login']
+const whiteList = ['tokenIndex']
 // const defaultRoutePath = '/home'
 
 router.beforeEach((to, from, next) => {
   NProgress.start()
-  console.log(to)
   if (Vue.ls.get(ACCESS_TOKEN)) {
-    if (!store.getters.userInfo) {
+    if (!Object.keys(store.getters.userInfo).length) {
       store
         .dispatch('GetUserInfo')
         .then((res) => {
           const result = res.data
-          store.dispatch('GenerateRoutes', { result }).then(() => {
+          store.dispatch('GenerateRoutes', result).then(() => {
             router.addRoutes(store.getters.addRouters)
             const redirect = decodeURIComponent(from.query.redirect || to.path)
             if (to.path === redirect) {
@@ -43,7 +42,9 @@ router.beforeEach((to, from, next) => {
     if (whiteList.includes(to.name)) {
       next()
     } else {
-      next({ path: '/user/login' })
+      const fullPath = to.fullPath
+      store.dispatch('Login', { fullPath })
+      // next({ path: '/user/login' })
       NProgress.done()
     }
   }

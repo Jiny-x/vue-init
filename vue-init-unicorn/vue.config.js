@@ -2,7 +2,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const webpack = require('webpack')
 
 const path = require('path')
-const resolve = dir => path.join(__dirname, dir)
+const resolve = (dir) => path.join(__dirname, dir)
 const IS_PROD = ['production', 'prod'].includes(process.env.NODE_ENV)
 
 module.exports = {
@@ -15,18 +15,18 @@ module.exports = {
   parallel: require('os').cpus().length > 1,
   pwa: {},
 
-  configureWebpack: config => {
+  configureWebpack: (config) => {
     // 配置externals,防止打包到bundle中，用cdn形式引入
     config.externals = {
       vue: 'Vue',
       'element-ui': 'ELEMENT',
       'vue-router': 'VueRouter',
       vuex: 'Vuex',
-      axios: 'axios'
+      axios: 'axios',
     }
   },
 
-  chainWebpack: config => {
+  chainWebpack: (config) => {
     // 修复HMR
     config.resolve.symlinks(true)
 
@@ -48,8 +48,8 @@ module.exports = {
     if (IS_PROD) {
       config.plugin('webpack-report').use(BundleAnalyzerPlugin, [
         {
-          analyzerMode: 'static'
-        }
+          analyzerMode: 'static',
+        },
       ])
     }
 
@@ -61,11 +61,11 @@ module.exports = {
         '//unpkg.com/vue-router@3.0.6/dist/vue-router.min.js',
         '//unpkg.com/vuex@3.1.1/dist/vuex.min.js',
         '//unpkg.com/axios@0.19.0/dist/axios.min.js',
-        '//unpkg.com/element-ui@2.10.1/lib/index.js'
-      ]
+        '//unpkg.com/element-ui@2.10.1/lib/index.js',
+      ],
     }
     // 如果使用多页面打包，使用vue inspect --plugins查看html是否在结果数组中
-    config.plugin('html').tap(args => {
+    config.plugin('html').tap((args) => {
       // html中添加cdn
       args[0].cdn = cdn
 
@@ -84,11 +84,15 @@ module.exports = {
     return config
   },
 
+  css: {
+    sourceMap: true,
+  },
+
   devServer: {
     overlay: {
       // 让浏览器 overlay 同时显示警告和错误
       warnings: true,
-      errors: true
+      errors: true,
     },
     open: true, // 是否自动打开浏览器
     host: 'localhost',
@@ -102,23 +106,23 @@ module.exports = {
         changeOrigin: true, // 开启代理，在本地创建一个虚拟服务端
         // ws: true, // 是否启用websockets
         pathRewrite: {
-          '^/api': '/'
-        }
+          '^/api': '/',
+        },
       },
       '/auth': {
         target: 'http://10.254.9.31:8888',
         changeOrigin: true,
         pathRewrite: {
-          '^/auth': '/'
-        }
+          '^/auth': '/',
+        },
       },
       '/isse-auth': {
         target: 'https://10.254.9.31:8888',
         changeOrigin: true,
         pathRewrite: {
-          '^/isse-auth': '/'
-        }
-      }
-    }
-  }
+          '^/isse-auth': '/',
+        },
+      },
+    },
+  },
 }
